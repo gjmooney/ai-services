@@ -1,16 +1,13 @@
-import { FC } from "react";
-import { Button } from "./ui/button";
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { UserButton } from "@clerk/nextjs";
+import { FC } from "react";
+import MobileSidebar from "./MobileSidebar";
 
 interface NavbarProps {}
 
 const Navbar: FC<NavbarProps> = ({}) => {
   return (
     <div className="flex items-center p-4">
-      <Button variant={"ghost"} size={"icon"} className="md:hidden">
-        <HamburgerMenuIcon />
-      </Button>
+      <MobileSidebar />
       <div className="flex w-full justify-end">
         <UserButton afterSignOutUrl="/" />
       </div>

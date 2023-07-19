@@ -16,6 +16,7 @@ import { Montserrat } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
+import { usePathname } from "next/navigation";
 
 const montserrat = Montserrat({ weight: "600", subsets: ["latin"] });
 
@@ -66,6 +67,8 @@ const routes = [
 interface SidebarProps {}
 
 const Sidebar: FC<SidebarProps> = ({}) => {
+  const pathname = usePathname();
+
   return (
     <div className="space-y-4 py-4 flex flex-col h-full bg-gray-900 text-white">
       <div className="px-3 py-2 flex-1 ">
