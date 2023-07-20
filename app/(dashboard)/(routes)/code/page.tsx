@@ -13,15 +13,16 @@ import { cn } from "@/lib/utils";
 import { FormRequest, FormValidator } from "@/lib/validators/prompt";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { MessageSquare } from "lucide-react";
+import { Code } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ChatCompletionRequestMessage } from "openai";
 import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
+import ReactMarkdown from "react-markdown";
 
-interface ConversationPageProps {}
+interface CodePageProps {}
 
-const ConversationPage: FC<ConversationPageProps> = ({}) => {
+const CodePage: FC<CodePageProps> = ({}) => {
   const router = useRouter();
 
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
@@ -44,7 +45,7 @@ const ConversationPage: FC<ConversationPageProps> = ({}) => {
 
       const newMessages = [...messages, userMessage];
 
-      const response = await axios.post("/api/conversation", {
+      const response = await axios.post("/api/code", {
         messages: newMessages,
       });
 
@@ -62,11 +63,11 @@ const ConversationPage: FC<ConversationPageProps> = ({}) => {
   return (
     <div>
       <Heading
-        title="Conversation"
-        description="Your real friends are right here"
-        icon={MessageSquare}
-        iconColor="text-violet-500"
-        bgColor="bg-violet-500/10"
+        title="Code Generation"
+        description="Who needs to learn to code"
+        icon={Code}
+        iconColor="text-green-500"
+        bgColor="bg-green-500/10"
       />
       <div className="px-4 lg:px-8">
         <div className="">
@@ -83,7 +84,7 @@ const ConversationPage: FC<ConversationPageProps> = ({}) => {
                       <Input
                         className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent shadow-none"
                         disabled={isLoading}
-                        placeholder="Put your thoughts or questions here"
+                        placeholder="Put your next brilliant idea here"
                         {...field}
                       />
                     </FormControl>
@@ -120,7 +121,21 @@ const ConversationPage: FC<ConversationPageProps> = ({}) => {
                 )}
               >
                 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-                <p className="text-sm">{message.content}</p>
+                <ReactMarkdown
+                  components={{
+                    pre: ({ node, ...props }) => (
+                      <div className="overflow-auto w-full my-2 bg-black/10 p-2 rounded-lg">
+                        <pre {...props} />
+                      </div>
+                    ),
+                    code: ({ node, ...props }) => (
+                      <code className="bg-black/10 rounded-lg p-1" {...props} />
+                    ),
+                  }}
+                  className="text-sm overflow-hidden leading-7"
+                >
+                  {message.content || ""}
+                </ReactMarkdown>
               </div>
             ))}
           </div>
@@ -130,4 +145,4 @@ const ConversationPage: FC<ConversationPageProps> = ({}) => {
   );
 };
 
-export default ConversationPage;
+export default CodePage;
