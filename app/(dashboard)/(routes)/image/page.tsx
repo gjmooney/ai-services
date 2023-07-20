@@ -7,9 +7,23 @@ import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { ImageRequest, ImageValidator } from "@/lib/validators/image";
+import {
+  Select,
+  SelectValue,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import {
+  ImageRequest,
+  ImageValidator,
+  amountOptions,
+  resolutionOptions,
+} from "@/lib/validators/image";
 import { FormRequest, FormValidator } from "@/lib/validators/prompt";
+
 import { zodResolver } from "@hookform/resolvers/zod";
+import {} from "@radix-ui/react-select";
 import axios from "axios";
 import { Image } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -33,7 +47,7 @@ const ImagePage: FC<ImagePageProps> = ({}) => {
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = async (values: FormRequest) => {
+  const onSubmit = async (values: ImageRequest) => {
     try {
       setImages([]);
 
@@ -71,15 +85,69 @@ const ImagePage: FC<ImagePageProps> = ({}) => {
               <FormField
                 name="prompt"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
+                  <FormItem className="col-span-12 lg:col-span-6">
                     <FormControl className="m-0 p-0">
                       <Input
                         className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent shadow-none"
                         disabled={isLoading}
-                        placeholder="Put your thoughts or questions here"
+                        placeholder="The weirdest thing you can think of"
                         {...field}
                       />
                     </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="amount"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem className="col-span-12 lg:col-span-2">
+                    <Select
+                      disabled={isLoading}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue defaultValue={field.value} />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {amountOptions.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="resolution"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem className="col-span-12 lg:col-span-2">
+                    <Select
+                      disabled={isLoading}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue defaultValue={field.value} />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {resolutionOptions.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </FormItem>
                 )}
               />
