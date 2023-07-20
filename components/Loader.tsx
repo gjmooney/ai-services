@@ -10,7 +10,7 @@ const Loader: FC<LoaderProps> = ({}) => {
         <Image fill alt="loading" src="/logo.png" />
       </div>
       <p className="text-sm text-muted-foreground">
-        The Savant is contemplating
+        The Savant is contemplating...
       </p>
     </div>
   );
