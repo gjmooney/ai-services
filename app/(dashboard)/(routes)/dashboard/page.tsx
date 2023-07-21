@@ -1,6 +1,7 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
+import { tools } from "@/constants";
 import { cn } from "@/lib/utils";
 import {
   ArrowRight,
@@ -14,44 +15,6 @@ import { useRouter } from "next/navigation";
 import { FC } from "react";
 
 interface HomePageProps {}
-
-const tools = [
-  {
-    label: "Conversation",
-    icon: MessageSquare,
-    color: "text-violet-500",
-    bgColor: "bg-violet-500/10",
-    href: "/conversation",
-  },
-  {
-    label: "Image Generation",
-    icon: ImageIcon,
-    href: "/image",
-    color: "text-pink-500",
-    bgColor: "bg-pink-500/10",
-  },
-  {
-    label: "Video Generation",
-    icon: VideoIcon,
-    href: "/video",
-    color: "text-orange-500",
-    bgColor: "bg-orange-500/10",
-  },
-  {
-    label: "Music Generation",
-    icon: Music,
-    href: "/music",
-    color: "text-emerald-500",
-    bgColor: "bg-emerald-500/10",
-  },
-  {
-    label: "Code Generation",
-    icon: Code,
-    href: "/code",
-    color: "text-green-500",
-    bgColor: "bg-green-500/10",
-  },
-];
 
 const HomePage: FC<HomePageProps> = ({}) => {
   const router = useRouter();
