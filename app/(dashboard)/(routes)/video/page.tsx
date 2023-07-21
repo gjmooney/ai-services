@@ -10,17 +10,17 @@ import { FormRequest, FormValidator } from "@/lib/validators/prompt";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { Music } from "lucide-react";
+import { VideoIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 
-interface MusicPageProps {}
+interface VideoPageProps {}
 
-const MusicPage: FC<MusicPageProps> = ({}) => {
+const VideoPage: FC<VideoPageProps> = ({}) => {
   const router = useRouter();
 
-  const [music, setMusic] = useState<string>();
+  const [video, setVideo] = useState<string>();
 
   const form = useForm<FormRequest>({
     resolver: zodResolver(FormValidator),
@@ -33,11 +33,11 @@ const MusicPage: FC<MusicPageProps> = ({}) => {
 
   const onSubmit = async (values: FormRequest) => {
     try {
-      setMusic(undefined);
+      setVideo(undefined);
 
-      const response = await axios.post("/api/music", values);
+      const response = await axios.post("/api/video", values);
 
-      setMusic(response.data.audio);
+      setVideo(response.data[0]);
 
       form.reset();
     } catch (error) {
@@ -51,11 +51,11 @@ const MusicPage: FC<MusicPageProps> = ({}) => {
   return (
     <div>
       <Heading
-        title="Music Generation"
-        description="Let's get that soul out of there"
-        icon={Music}
-        iconColor="text-emerald-500"
-        bgColor="bg-emerald-500/10"
+        title="Video Generation"
+        description="Better than Hollywood"
+        icon={VideoIcon}
+        iconColor="text-orange-500"
+        bgColor="bg-orange-500/10"
       />
       <div className="px-4 lg:px-8">
         <div className="">
@@ -72,7 +72,7 @@ const MusicPage: FC<MusicPageProps> = ({}) => {
                       <Input
                         className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent shadow-none"
                         disabled={isLoading}
-                        placeholder="Better than Bon Jovi"
+                        placeholder="Be the next Micheal Bay"
                         {...field}
                       />
                     </FormControl>
@@ -94,11 +94,14 @@ const MusicPage: FC<MusicPageProps> = ({}) => {
               <Loader />
             </div>
           )}
-          {!music && !isLoading && <Empty label="No music generated" />}
-          {music && (
-            <audio controls className="w-full mt-8">
-              <source src={music} />
-            </audio>
+          {!video && !isLoading && <Empty label="No video generated" />}
+          {video && (
+            <video
+              controls
+              className="w-full aspect-video mt-8 rounded-lg border bg-black"
+            >
+              <source src={video} />
+            </video>
           )}
         </div>
       </div>
@@ -106,4 +109,4 @@ const MusicPage: FC<MusicPageProps> = ({}) => {
   );
 };
 
-export default MusicPage;
+export default VideoPage;
