@@ -1,23 +1,15 @@
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { FC } from "react";
+import LandingContent from "@/components/LandingContent";
+import LandingHero from "@/components/LandingHero";
+import LandingNavbar from "@/components/LandingNavbar";
 
-interface pageProps {}
-
-const page: FC<pageProps> = ({}) => {
+const LandingPage = () => {
   return (
-    <div>
-      landing page (unprotected)
-      <div className="">
-        <Link href="/sign-in">
-          <Button>Login</Button>
-        </Link>
-        <Link href="/sign-up">
-          <Button>Register</Button>
-        </Link>
-      </div>
+    <div className="h-full ">
+      <LandingNavbar />
+      <LandingHero />
+      <LandingContent />
     </div>
   );
 };
 
-export default page;
+export default LandingPage;
