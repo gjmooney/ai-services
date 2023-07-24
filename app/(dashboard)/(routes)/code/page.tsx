@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { ChatCompletionRequestMessage } from "openai";
 import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import ReactMarkdown from "react-markdown";
 
 interface CodePageProps {}
@@ -57,8 +58,9 @@ const CodePage: FC<CodePageProps> = ({}) => {
     } catch (error: any) {
       if (error?.response?.status === 403) {
         proModal.onOpen();
+      } else {
+        toast.error("Something went wrong");
       }
-      console.log(error);
     } finally {
       router.refresh();
     }

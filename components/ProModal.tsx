@@ -1,8 +1,15 @@
 "use client";
 
+import { tools } from "@/constants";
 import { useProModal } from "@/hooks/use-pro-modal";
+import { cn } from "@/lib/utils";
+import axios from "axios";
+import { Check, Zap } from "lucide-react";
 import { FC, useState } from "react";
+import { toast } from "react-hot-toast";
 import { Badge } from "./ui/badge";
+import { Button } from "./ui/button";
+import { Card } from "./ui/card";
 import {
   Dialog,
   DialogContent,
@@ -11,12 +18,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "./ui/dialog";
-import { tools } from "@/constants";
-import { Card } from "./ui/card";
-import { cn } from "@/lib/utils";
-import { Check, Zap } from "lucide-react";
-import { Button } from "./ui/button";
-import axios from "axios";
 
 interface ProModalProps {}
 
@@ -31,6 +32,7 @@ const ProModal: FC<ProModalProps> = ({}) => {
       window.location.href = response.data.url;
     } catch (error) {
       console.log("STRIPE_CLIENT_ERROR");
+      toast.error("Something went wrong");
     } finally {
       setIsLoading(false);
     }

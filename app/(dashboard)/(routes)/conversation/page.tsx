@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { ChatCompletionRequestMessage } from "openai";
 import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 
 interface ConversationPageProps {}
 
@@ -56,6 +57,8 @@ const ConversationPage: FC<ConversationPageProps> = ({}) => {
     } catch (error: any) {
       if (error?.response?.status === 403) {
         proModal.onOpen();
+      } else {
+        toast.error("Something went wrong");
       }
       console.log(error);
     } finally {
