@@ -6,6 +6,7 @@ import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useProModal } from "@/hooks/use-pro-modal";
 import { FormRequest, FormValidator } from "@/lib/validators/prompt";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,6 +20,7 @@ interface MusicPageProps {}
 
 const MusicPage: FC<MusicPageProps> = ({}) => {
   const router = useRouter();
+  const proModal = useProModal();
 
   const [music, setMusic] = useState<string>();
 
@@ -40,8 +42,10 @@ const MusicPage: FC<MusicPageProps> = ({}) => {
       setMusic(response.data.audio);
 
       form.reset();
-    } catch (error) {
-      //TODO: open pro modal
+    } catch (error: any) {
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      }
       console.log(error);
     } finally {
       router.refresh();

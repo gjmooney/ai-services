@@ -1,7 +1,7 @@
 "use client";
 
 import { useProModal } from "@/hooks/use-pro-modal";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Badge } from "./ui/badge";
 import {
   Dialog,
@@ -21,6 +21,7 @@ interface ProModalProps {}
 
 const ProModal: FC<ProModalProps> = ({}) => {
   const proModal = useProModal();
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <Dialog open={proModal.isOpen} onOpenChange={proModal.onClose}>
@@ -52,7 +53,12 @@ const ProModal: FC<ProModalProps> = ({}) => {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button size={"lg"} variant={"premium"} className="w-full">
+          <Button
+            disabled={isLoading}
+            size={"lg"}
+            variant={"premium"}
+            className="w-full"
+          >
             Upgrade <Zap className="w-4 h-4 ml-2 fill-white" />
           </Button>
         </DialogFooter>

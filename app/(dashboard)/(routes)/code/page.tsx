@@ -9,6 +9,7 @@ import UserAvatar from "@/components/UserAvatar";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useProModal } from "@/hooks/use-pro-modal";
 import { cn } from "@/lib/utils";
 import { FormRequest, FormValidator } from "@/lib/validators/prompt";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,6 +25,7 @@ interface CodePageProps {}
 
 const CodePage: FC<CodePageProps> = ({}) => {
   const router = useRouter();
+  const proModal = useProModal();
 
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
@@ -52,8 +54,10 @@ const CodePage: FC<CodePageProps> = ({}) => {
       setMessages((current) => [...current, userMessage, response.data]);
 
       form.reset();
-    } catch (error) {
-      //TODO: open pro modal
+    } catch (error: any) {
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      }
       console.log(error);
     } finally {
       router.refresh();

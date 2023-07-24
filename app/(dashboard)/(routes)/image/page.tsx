@@ -28,11 +28,13 @@ import {
   amountOptions,
   resolutionOptions,
 } from "@/lib/validators/image";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 interface ImagePageProps {}
 
 const ImagePage: FC<ImagePageProps> = ({}) => {
   const router = useRouter();
+  const proModal = useProModal();
   const [images, setImages] = useState<string[]>([]);
 
   const form = useForm<ImageRequest>({
@@ -57,8 +59,10 @@ const ImagePage: FC<ImagePageProps> = ({}) => {
       setImages(urls);
 
       form.reset();
-    } catch (error) {
-      //TODO: open pro modal
+    } catch (error: any) {
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      }
       console.log(error);
     } finally {
       router.refresh();
